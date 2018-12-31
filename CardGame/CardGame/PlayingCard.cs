@@ -11,9 +11,14 @@ namespace CardGame
         public bool IsVisible { get; set; }
 
 
-        public PlayingCard(Suit suit, Value value, bool isVisible)
+        public PlayingCard()
         {
 
         }
+
+        //public PlayingCard(Suit suit, Value value, bool isVisible)
+        //{
+
+        //}
     }
 }

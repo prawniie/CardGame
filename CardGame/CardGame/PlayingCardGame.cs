@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CardGame
 {
@@ -9,6 +8,9 @@ namespace CardGame
 
         public void Menu()
         {
+
+            //Ska innehålla minst en instans av playingcarddeck
+
             WelcomeUser();
             PlayGame();
             ShowRules();
@@ -24,7 +26,13 @@ namespace CardGame
         public void PlayGame()
         {
             Console.WriteLine("Playing new game..");
-        }
+
+            //Skapa en instans av playingcarddeck
+
+            PlayingCardDeck playingCardDeck = new PlayingCardDeck();
+            playingCardDeck.CreateDeck();
+
+    }
 
         public void ShowRules()
         {
