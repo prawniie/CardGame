@@ -16,6 +16,21 @@ namespace CardGame
 
         }
 
+        public PlayingCard(Suit suit)
+        {
+
+        }
+
+        public PlayingCard(Value value)
+        {
+
+        }
+
+        public PlayingCard(Suit suit, Value value)
+        {
+
+        }
+
         //public PlayingCard(Suit suit, Value value, bool isVisible)
         //{
 

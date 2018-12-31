@@ -9,11 +9,35 @@ namespace CardGame
     {
         //representerar en kortlek på 52 kort av typen PlayingCard
 
+        //private PlayingCard[] cards;
+
         public void CreateDeck()
         {
 
-            ////for each of the four suits
-            ////loop 13 times for said suit
+            List<PlayingCard> cards = new List<PlayingCard>();
+
+            var suitArray = Enum.GetValues(typeof(Suit));
+            var valuesArray = Enum.GetValues(typeof(Value));
+
+                foreach (var suit in suitArray)
+                {
+                    foreach (var value in valuesArray)
+                    {
+                        PlayingCard card = new PlayingCard();
+                        card.Suit = (Suit)Enum.Parse(typeof(Suit), suit.ToString());
+                        card.Value = (Value)Enum.Parse(typeof(Value), value.ToString());
+                        cards.Add(card);
+                    }
+                }
+
+            
+            Console.ReadLine();
+
+            foreach (var card in cards)
+            {
+                Console.WriteLine($"{card.Suit} {card.Value}");
+            }
+
 
 
             //List<PlayingCard> playingCardDeck = new List<PlayingCard>();
