@@ -7,12 +7,10 @@ namespace CardGame
 {
     public class PlayingCardDeck
     {
-        //representerar en kortlek på 52 kort av typen PlayingCard
-
-        //private PlayingCard[] cards;
 
         public void CreateDeck()
         {
+            //Skapa en blandad!! kortlek som spelet ska använda sig av
 
             List<PlayingCard> cards = new List<PlayingCard>();
 
@@ -30,101 +28,47 @@ namespace CardGame
                     }
                 }
 
-            
-            Console.ReadLine();
+            //All cards in the deck =)
+            //foreach (var card in cards)
+            //{
+            //    Console.WriteLine($"{card.Suit} {card.Value}");
+            //}
 
-            foreach (var card in cards)
+        }
+
+        //Får inte randomiseringen att fungera.. första kortet kommer vara hjärter ess som tas från leken
+        public static void Shuffle<T>(List<PlayingCard> cards, Random rnd)
+        {
+            for (var i = 0; i < cards.Count; i++)
+                cards.Swap(i, rnd.Next(i, cards.Count));
+        }
+
+        public static void Swap<T>(List<PlayingCard> cards, int i, int j)
+        {
+            var temp = cards[i];
+            cards[i] = cards[j];
+            cards[j] = temp;
+        }
+
+        public PlayingCard PickFirstCardFromDeck(List<PlayingCard> cards)
+        {
+            if (cards.Count == 0)
             {
-                Console.WriteLine($"{card.Suit} {card.Value}");
+                Console.WriteLine("Oupps! Seems like there are no cards left.");
             }
 
-
-
-            //List<PlayingCard> playingCardDeck = new List<PlayingCard>();
-
-            ////PlayingCard c1 = new PlayingCard(Suit.Clubs, Value.A2, false);
-            ////PlayingCard c2 = new PlayingCard(Suit.Clubs, Value.A3, false);
-            ////PlayingCard c3 = new PlayingCard(Suit.Clubs, Value.A4, false);
-            ////PlayingCard c4 = new PlayingCard(Suit.Clubs, Value.A5, false);
-            ////PlayingCard c5 = new PlayingCard(Suit.Clubs, Value.A6, false);
-
-            //    //playingCardDeck.Add(c1);
-            //    //playingCardDeck.Add(c2);
-            //    //playingCardDeck.Add(c3);
-            //    //playingCardDeck.Add(c4);
-            //    //playingCardDeck.Add(c5);
-
-            //    //Ovanstående funkar ej, alla korten blir hjärter ess???
-
-            //    //Skapa 13 hjärterkort
-            //    for (int i = 1; i <= 13; i++)
-            //{
-            //    PlayingCard card = new PlayingCard();
-            //    card.Suit = Suit.Hearts;
-
-            //    var valuesArray = Enum.GetValues(typeof(Value));
-            //    //Suit suitValue = (Suit)Enum.Parse(typeof(Suit), valuesArray);
-
-            //    //for (int j = 0; j < values.Length; j++)
-            //    //{
-            //    //    card.Value = Enum.Parse(values[j]);
-            //    //}
-
-            //    //string[] colorStrings = { "0", "2", "8", "blue", "Blue", "Yellow", "Red, Green" };
-            //    //Colors colorValue = (Colors) Enum.Parse(typeof(Colors), colorString); 
-
-            //    foreach (var value in valuesArray)
-            //    {
-            //        card.Value = (Value)Enum.Parse(typeof(Value), value.ToString());
-            //    }
-
-            //    playingCardDeck.Add(card);
-            //}
-
-            ////Skapa 13 spaderkort
-            //for (int i = 1; i <= 13; i++)
-            //{
-            //    PlayingCard card = new PlayingCard();
-            //    card.Suit = Suit.Spades;
-            //    playingCardDeck.Add(card);
-            //}
-
-            ////Skapa 13 ruterkort
-            //for (int i = 1; i <= 13; i++)
-            //{
-            //    PlayingCard card = new PlayingCard();
-            //    card.Suit = Suit.Diamonds;
-            //    playingCardDeck.Add(card);
-            //}
-
-            ////Skapa 13 klöverkort
-            //for (int i = 1; i <= 13; i++)
-            //{
-            //    PlayingCard card = new PlayingCard();
-            //    card.Suit = Suit.Clubs;
-            //    playingCardDeck.Add(card);
-            //}
-
-            //int counter = 1;
-
-            //foreach (var card in playingCardDeck)
-            //{
-            //    Console.WriteLine($"card {counter}: {card.Suit} {card.Value} {card.IsVisible}");
-            //    counter++;
-            //}
-
-            Console.ReadKey();
-
+            return cards.First();
+            
         }
 
-        public void PickFirstCardFromDeck()
+        public List<PlayingCard> AddCardToBottomOfDeck(List<PlayingCard> cards, PlayingCard card) 
         {
-            //Vad ska hända om kortleken är tom?
-        }
 
-        public void AddCardToBottomOfDeck() 
-        {
-            //Anv push,queue eller liknande
+            List<PlayingCard> cardsWithCardAddedToBottom = cards;
+            cardsWithCardAddedToBottom.Add(card);
+
+            return cardsWithCardAddedToBottom;
+            
         }
 
     }

@@ -27,10 +27,13 @@ namespace CardGame
         {
             Console.WriteLine("Playing new game..");
 
-            //Skapa en instans av playingcarddeck
-
+            //Skapar en ny kortlek
             PlayingCardDeck playingCardDeck = new PlayingCardDeck();
             playingCardDeck.CreateDeck();
+
+            //Köra nedanstående på repeat till antalet kort är 0?
+            //playingCardDeck.PickFirstCardFromDeck();
+            //playingCardDeck.AddCardToBottomOfDeck();
 
     }
 
