@@ -8,7 +8,7 @@ namespace CardGame
     public class PlayingCardDeck
     {
 
-        public void CreateDeck()
+        public List<PlayingCard> CreateDeck()
         {
             //Skapa en blandad!! kortlek som spelet ska använda sig av
 
@@ -28,6 +28,8 @@ namespace CardGame
                     }
                 }
 
+            return cards;
+
             //All cards in the deck =)
             //foreach (var card in cards)
             //{
@@ -36,18 +38,24 @@ namespace CardGame
 
         }
 
-        //Får inte randomiseringen att fungera.. första kortet kommer vara hjärter ess som tas från leken
-        public static void Shuffle<T>(List<PlayingCard> cards, Random rnd)
-        {
-            for (var i = 0; i < cards.Count; i++)
-                cards.Swap(i, rnd.Next(i, cards.Count));
-        }
+        //Bra länkar att titta på
+        //http://www.tutorialsteacher.com/csharp/csharp-list
 
-        public static void Swap<T>(List<PlayingCard> cards, int i, int j)
+        //Får inte randomiseringen att fungera.. första kortet kommer vara hjärter ess som tas från leken
+
+        private static Random rng = new Random();
+
+        public void Shuffle<PlayingCard>(List<PlayingCard> cards)
         {
-            var temp = cards[i];
-            cards[i] = cards[j];
-            cards[j] = temp;
+            int n = cards.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                PlayingCard value = cards[k];
+                cards[k] = cards[n];
+                cards[n] = value;
+            }
         }
 
         public PlayingCard PickFirstCardFromDeck(List<PlayingCard> cards)
