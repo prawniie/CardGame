@@ -16,6 +16,11 @@ namespace CardGame
 
             //To do 1: fixa en score för varje spelomgång som ska lagras i textfil som läses in, när man väljer menyvalet statistik
             //To do 2: fixa så att spelardata används, skapa klass? lagra användarnamn och statistik
+            //Lägg till: Om korten har samma valör jämför man färg där spader (♠) > hjärter (♥) > ruter (♦) > klöver (♣). 
+
+            //Att implementera: 
+            //Efter ett parti ska bägge korten stoppas tillbaka längst bak i kortleken och man ska bli tillfrågad om man vill spela ett nytt parti eller gå tillbaka till huvudmenyn. 
+            //När man spelat ett spel ska ens poängställning (antal vinter/förluster) skrivas ner till fil och uppdatera sin spelarstatus-historik (totala vinster/förluster).
 
         }
 
