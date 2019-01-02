@@ -13,11 +13,40 @@ namespace CardGame
 
             WelcomeUser();
 
+            while (true)
+            {
+                Console.WriteLine("Menu");
+                Console.WriteLine("1) Play new game");
+                Console.WriteLine("2) Rules");
+                Console.WriteLine("3) Statistics");
+                Console.WriteLine("4) Exit");
 
-            PlayGame();
-            ShowRules();
-            ShowStatistics();
-            EndGame();
+                string input = Console.ReadLine();
+
+                if (input == "4")
+                {
+                    break;
+                }
+
+                switch (input)
+                {
+                    case "1":
+                        PlayGame();
+                        break;
+                    case "2":
+                        ShowRules();
+                        break;
+                    case "3":
+                        ShowStatistics();
+                        break;
+
+                    default:
+                        Console.WriteLine("Please write 1,2,3 or 4 to choose a menu option.");
+                        break;
+                }
+            }
+
+            Console.WriteLine("Ending game...");
         }
 
         public void WelcomeUser()
