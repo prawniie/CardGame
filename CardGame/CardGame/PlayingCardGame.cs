@@ -10,7 +10,13 @@ namespace CardGame
         {
 
             WelcomeUser();
+            ShowMenu();
 
+            Console.WriteLine("Ending game...");
+        }
+
+        public void ShowMenu()
+        {
             while (true)
             {
                 Console.Clear();
@@ -42,20 +48,19 @@ namespace CardGame
                         break;
                 }
             }
-
-            Console.WriteLine("Ending game...");
         }
 
         public void WelcomeUser()
         {
             Console.ForegroundColor = ConsoleColor.Green;
 
-            Console.WriteLine("██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
-            Console.WriteLine("██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
-            Console.WriteLine("███████║██║██║  ███╗███████║█████╗  ██████╔╝    ██║   ██║██████╔╝    ██║     ██║   ██║██║ █╗ ██║█████╗  ██████╔╝");
-            Console.WriteLine("██╔══██║██║██║   ██║██╔══██║██╔══╝  ██╔══██╗    ██║   ██║██╔══██╗    ██║     ██║   ██║██║███╗██║██╔══╝  ██╔══██╗");
-            Console.WriteLine("██║  ██║██║╚██████╔╝██║  ██║███████╗██║  ██║    ╚██████╔╝██║  ██║    ███████╗╚██████╔╝╚███╔███╔╝███████╗██║  ██║");
-            Console.WriteLine("╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝");
+            Console.WriteLine();
+            Console.WriteLine(" ██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
+            Console.WriteLine(" ██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
+            Console.WriteLine(" ███████║██║██║  ███╗███████║█████╗  ██████╔╝    ██║   ██║██████╔╝    ██║     ██║   ██║██║ █╗ ██║█████╗  ██████╔╝");
+            Console.WriteLine(" ██╔══██║██║██║   ██║██╔══██║██╔══╝  ██╔══██╗    ██║   ██║██╔══██╗    ██║     ██║   ██║██║███╗██║██╔══╝  ██╔══██╗");
+            Console.WriteLine(" ██║  ██║██║╚██████╔╝██║  ██║███████╗██║  ██║    ╚██████╔╝██║  ██║    ███████╗╚██████╔╝╚███╔███╔╝███████╗██║  ██║");
+            Console.WriteLine(" ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝");
 
             Console.ResetColor();
             Console.ReadKey();
@@ -73,129 +78,156 @@ namespace CardGame
 
             while (cards.Count >= 2)
             {
-                Console.WriteLine("\nWrite 'h' for higher and 'l' for lower. Write 'exit' to go back to main menu");
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("\nWrite 'h' for higher and 'l' for lower. Write 'exit' to go back to main menu ");
                 Console.WriteLine("_____________________________________________________________________________");
+                Console.ResetColor();
 
                 PlayingCard firstCard = playingCardDeck.PickFirstCardFromDeck(cards);
 
                 Console.WriteLine($"\nThe card is {firstCard.Suit} {firstCard.Value}");
                 cards.Remove(firstCard);
 
+                string answer = "";
+
                 Console.Write("Do you think the next card will be higher or lower? ");
-                Console.ForegroundColor = ConsoleColor.Green;
-                string answer = Console.ReadLine();
-                Console.ResetColor();
+
+                while (true)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    answer = Console.ReadLine();
+                    Console.ResetColor();
+
+                    if (answer.ToLower() == "l" || answer.ToLower() == "h")
+                    {
+                        CompareCards(playingCardDeck, cards, firstCard, answer);
+                        break;
+                    }
+                    else if (answer.ToLower() == "exit")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.Write("I didn't quite get that. Please write 'h' or 'l': ");
+                        continue;
+                    }
+                }
 
                 if (answer.ToLower() == "exit")
                 {
                     break;
                 }
+                //    if (firstCard.Value > secondCard.Value)
+                //    {
+                //        if (answer.ToLower() == "l")
+                //        {
+                //            WriteGreen("your answer was correct!\n");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
+                //        else if(answer.ToLower() == "h")
+                //        {
+                //            WriteRed("your answer was wrong!\n");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
 
-                PlayingCard secondCard = playingCardDeck.PickFirstCardFromDeck(cards);
-                Console.Write($"The second card is {secondCard.Suit} {secondCard.Value}, ");
-                cards.Remove(secondCard);
-
-                if (firstCard.Value == secondCard.Value)
-                {
-                    WriteGreen("The cards have the same value!\n");
-                    Console.ReadKey();
-                    Console.Clear();
-                    break;
-                }
-
-                switch (answer)
-                {
-                    case "l":
-                        if (firstCard.Value > secondCard.Value)
-                        {
-                            WriteGreen("your answer was correct!\n");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        else
-                        {
-                            WriteRed("your answer was wrong!\n");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        break;
-
-                    case "h":
-                        if (firstCard.Value < secondCard.Value)
-                        {
-                            WriteGreen("your answer was correct!\n");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        else
-                        {
-                            WriteRed("your answer was wrong!\n");
-                            Console.ReadKey();
-                            Console.Clear();
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-                        Console.ReadKey();
-                        Console.Clear();
-                        break;
-                }
-
-                //----------------------------
-
-            //    if (firstCard.Value > secondCard.Value)
-            //    {
-            //        if (answer.ToLower() == "l")
-            //        {
-            //            WriteGreen("your answer was correct!\n");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-            //        else if(answer.ToLower() == "h")
-            //        {
-            //            WriteRed("your answer was wrong!\n");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-
-            //    }
-            //    else if (firstCard.Value < secondCard.Value)
-            //    {
-            //        if (answer.ToLower() == "h")
-            //        {
-            //            WriteGreen("your answer was correct!\n");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-            //        else if (answer.ToLower() == "l")
-            //        {
-            //            WriteRed("your answer was wrong!\n");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-            //            Console.ReadKey();
-            //            Console.Clear();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        WriteGreen("The cards have the same value!\n");
-            //        Console.ReadKey();
-            //        Console.Clear();
-            //    }
+                //    }
+                //    else if (firstCard.Value < secondCard.Value)
+                //    {
+                //        if (answer.ToLower() == "h")
+                //        {
+                //            WriteGreen("your answer was correct!\n");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
+                //        else if (answer.ToLower() == "l")
+                //        {
+                //            WriteRed("your answer was wrong!\n");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+                //            Console.ReadKey();
+                //            Console.Clear();
+                //        }
+                //    }
+                //    else
+                //    {
+                //        WriteGreen("The cards have the same value!\n");
+                //        Console.ReadKey();
+                //        Console.Clear();
+                //    }
             }
 
             //playingCardDeck.AddCardToBottomOfDeck();
 
+        }
+
+        private void CompareCards(PlayingCardDeck playingCardDeck, List<PlayingCard> cards, PlayingCard firstCard, string answer)
+        {
+            PlayingCard secondCard = playingCardDeck.PickFirstCardFromDeck(cards);
+            Console.Write($"The second card is {secondCard.Suit} {secondCard.Value}, ");
+            cards.Remove(secondCard);
+
+
+            switch (answer)
+            {
+                case "l":
+                    if (firstCard.Value > secondCard.Value)
+                    {
+                        WriteGreen("your answer was correct!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if (firstCard.Value == secondCard.Value)
+                    {
+                        WriteGreen("the cards have the same value!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        WriteRed("your answer was wrong!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    break;
+
+                case "h":
+                    if (firstCard.Value < secondCard.Value)
+                    {
+                        WriteGreen("your answer was correct!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if (firstCard.Value == secondCard.Value)
+                    {
+                        WriteGreen("the cards have the same value!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        WriteRed("your answer was wrong!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    break;
+                default:
+                    break;
+
+            }
         }
 
         public void ShowRules()
