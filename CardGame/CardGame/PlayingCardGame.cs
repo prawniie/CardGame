@@ -15,7 +15,16 @@ namespace CardGame
 
             while (true)
             {
-                Console.WriteLine("Menu");
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine("███╗   ███╗███████╗███╗   ██╗██╗   ██╗");
+                Console.WriteLine("████╗ ████║██╔════╝████╗  ██║██║   ██║");
+                Console.WriteLine("██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║");
+                Console.WriteLine("██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║");
+                Console.WriteLine("██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝");
+                Console.WriteLine("╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ");
+
+
                 Console.WriteLine("1) Play new game");
                 Console.WriteLine("2) Rules");
                 Console.WriteLine("3) Statistics");
@@ -42,6 +51,8 @@ namespace CardGame
 
                     default:
                         Console.WriteLine("Please write 1,2,3 or 4 to choose a menu option.");
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
                 }
             }
