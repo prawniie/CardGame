@@ -95,55 +95,103 @@ namespace CardGame
                 Console.Write($"The second card is {secondCard.Suit} {secondCard.Value}, ");
                 cards.Remove(secondCard);
 
-                if (firstCard.Value > secondCard.Value)
-                {
-                    if (answer.ToLower() == "l")
-                    {
-                        WriteGreen("your answer was correct!\n");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                    else if(answer.ToLower() == "h")
-                    {
-                        WriteRed("your answer was wrong!\n");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-
-                }
-                else if (firstCard.Value < secondCard.Value)
-                {
-                    if (answer.ToLower() == "h")
-                    {
-                        WriteGreen("your answer was correct!\n");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                    else if (answer.ToLower() == "l")
-                    {
-                        WriteRed("your answer was wrong!\n");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                    else
-                    {
-                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                }
-                else
+                if (firstCard.Value == secondCard.Value)
                 {
                     WriteGreen("The cards have the same value!\n");
                     Console.ReadKey();
                     Console.Clear();
+                    break;
                 }
+
+                switch (answer)
+                {
+                    case "l":
+                        if (firstCard.Value > secondCard.Value)
+                        {
+                            WriteGreen("your answer was correct!\n");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            WriteRed("your answer was wrong!\n");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        break;
+
+                    case "h":
+                        if (firstCard.Value < secondCard.Value)
+                        {
+                            WriteGreen("your answer was correct!\n");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            WriteRed("your answer was wrong!\n");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                }
+
+                //----------------------------
+
+            //    if (firstCard.Value > secondCard.Value)
+            //    {
+            //        if (answer.ToLower() == "l")
+            //        {
+            //            WriteGreen("your answer was correct!\n");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+            //        else if(answer.ToLower() == "h")
+            //        {
+            //            WriteRed("your answer was wrong!\n");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+
+            //    }
+            //    else if (firstCard.Value < secondCard.Value)
+            //    {
+            //        if (answer.ToLower() == "h")
+            //        {
+            //            WriteGreen("your answer was correct!\n");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+            //        else if (answer.ToLower() == "l")
+            //        {
+            //            WriteRed("your answer was wrong!\n");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+            //            Console.ReadKey();
+            //            Console.Clear();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        WriteGreen("The cards have the same value!\n");
+            //        Console.ReadKey();
+            //        Console.Clear();
+            //    }
             }
 
             //playingCardDeck.AddCardToBottomOfDeck();
