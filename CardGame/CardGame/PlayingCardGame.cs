@@ -13,6 +13,10 @@ namespace CardGame
             ShowMenu();
 
             Console.WriteLine("Ending game...");
+
+            //To do 1: fixa en score för varje spelomgång som ska lagras i textfil som läses in, när man väljer menyvalet statistik
+            //To do 2: fixa så att spelardata används, skapa klass? lagra användarnamn och statistik
+
         }
 
         public void ShowMenu()
