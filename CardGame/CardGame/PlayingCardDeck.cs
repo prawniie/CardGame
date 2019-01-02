@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace CardGame
@@ -10,8 +9,6 @@ namespace CardGame
 
         public List<PlayingCard> CreateDeck()
         {
-            //Skapa en blandad!! kortlek som spelet ska använda sig av
-
             List<PlayingCard> cards = new List<PlayingCard>();
 
             var suitArray = Enum.GetValues(typeof(Suit));
@@ -40,8 +37,6 @@ namespace CardGame
 
         //Bra länkar att titta på
         //http://www.tutorialsteacher.com/csharp/csharp-list
-
-        //Får inte randomiseringen att fungera.. första kortet kommer vara hjärter ess som tas från leken
 
         private static Random rng = new Random();
 
@@ -72,7 +67,7 @@ namespace CardGame
         public List<PlayingCard> AddCardToBottomOfDeck(List<PlayingCard> cards, PlayingCard card) 
         {
 
-            List<PlayingCard> cardsWithCardAddedToBottom = cards;
+            List<PlayingCard> cardsWithCardAddedToBottom = cards; //Eller behöver man använda AddRange för att kopiera samtliga element?
             cardsWithCardAddedToBottom.Add(card);
 
             return cardsWithCardAddedToBottom;

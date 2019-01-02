@@ -9,26 +9,12 @@ namespace CardGame
         public void Menu()
         {
 
-            //Ska innehålla minst en instans av playingcarddeck
-
             WelcomeUser();
 
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine();
-                Console.WriteLine("███╗   ███╗███████╗███╗   ██╗██╗   ██╗");
-                Console.WriteLine("████╗ ████║██╔════╝████╗  ██║██║   ██║");
-                Console.WriteLine("██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║");
-                Console.WriteLine("██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║");
-                Console.WriteLine("██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝");
-                Console.WriteLine("╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ");
-
-
-                Console.WriteLine("1) Play new game");
-                Console.WriteLine("2) Rules");
-                Console.WriteLine("3) Statistics");
-                Console.WriteLine("4) Exit");
+                WriteMenu();
 
                 string input = Console.ReadLine();
 
@@ -63,15 +49,6 @@ namespace CardGame
         public void WelcomeUser()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            //Console.WriteLine("   ▄█    █▄     ▄█     ▄██████▄     ▄█    █▄       ▄████████    ▄████████       ▄██████▄     ▄████████       ▄█        ▄██████▄   ▄█     █▄     ▄████████    ▄████████ ");
-            //Console.WriteLine("  ███    ███   ███    ███    ███   ███    ███     ███    ███   ███    ███      ███    ███   ███    ███      ███       ███    ███ ███     ███   ███    ███   ███    ███ ");
-            //Console.WriteLine("  ███    ███   ███▌   ███    █▀    ███    ███     ███    █▀    ███    ███      ███    ███   ███    ███      ███       ███    ███ ███     ███   ███    █▀    ███    ███ ");
-            //Console.WriteLine(" ▄███▄▄▄▄███▄▄ ███▌  ▄███         ▄███▄▄▄▄███▄▄  ▄███▄▄▄      ▄███▄▄▄▄██▀      ███    ███  ▄███▄▄▄▄██▀      ███       ███    ███ ███     ███  ▄███▄▄▄      ▄███▄▄▄▄██▀ ");
-            //Console.WriteLine("▀▀███▀▀▀▀███▀  ███▌ ▀▀███ ████▄  ▀▀███▀▀▀▀███▀  ▀▀███▀▀▀     ▀▀███▀▀▀▀▀        ███    ███ ▀▀███▀▀▀▀▀        ███       ███    ███ ███     ███ ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ");
-            //Console.WriteLine("  ███    ███   ███    ███    ███   ███    ███     ███    █▄  ▀███████████      ███    ███ ▀███████████      ███       ███    ███ ███     ███   ███    █▄  ▀███████████ ");
-            //Console.WriteLine("  ███    ███   ███    ███    ███   ███    ███     ███    ███   ███    ███      ███    ███   ███    ███      ███▌    ▄ ███    ███ ███ ▄█▄ ███   ███    ███   ███    ███ ");
-            //Console.WriteLine("  ███    █▀    █▀     ████████▀    ███    █▀      ██████████   ███    ███       ▀██████▀    ███    ███      █████▄▄██  ▀██████▀   ▀███▀███▀    ██████████   ███    ███ ");
-            //Console.WriteLine("                                                               ███    ███                   ███    ███      ▀                                               ███    ███ ");
 
             Console.WriteLine("██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
             Console.WriteLine("██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
@@ -87,20 +64,17 @@ namespace CardGame
 
         public void PlayGame()
         {
-            Console.WriteLine("Playing new game..");
+            Console.Clear();
 
             //Skapar en ny kortlek
             PlayingCardDeck playingCardDeck = new PlayingCardDeck();
             List<PlayingCard> cards = playingCardDeck.CreateDeck();
             playingCardDeck.Shuffle(cards); //Har nu skapat en kortlek med randomiserad ordning i
 
-            Console.ReadLine();
-
-            //Köra nedanstående på repeat till antalet kort är 0?
-
             while (cards.Count >= 2)
             {
-                //Console.Clear();
+                Console.WriteLine("\nWrite 'h' for higher and 'l' for lower. Write 'exit' to go back to main menu");
+                Console.WriteLine("_____________________________________________________________________________");
 
                 PlayingCard firstCard = playingCardDeck.PickFirstCardFromDeck(cards);
 
@@ -123,29 +97,54 @@ namespace CardGame
 
                 if (firstCard.Value > secondCard.Value)
                 {
-                    if (answer.ToLower() == "lower")
+                    if (answer.ToLower() == "l")
+                    {
                         WriteGreen("your answer was correct!\n");
-                    else
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if(answer.ToLower() == "h")
+                    {
                         WriteRed("your answer was wrong!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+
                 }
                 else if (firstCard.Value < secondCard.Value)
                 {
-                    if (answer.ToLower() == "higher")
+                    if (answer.ToLower() == "h")
+                    {
                         WriteGreen("your answer was correct!\n");
-                    else 
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if (answer.ToLower() == "l")
+                    {
                         WriteRed("your answer was wrong!\n");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
                 }
                 else
                 {
                     WriteGreen("The cards have the same value!\n");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
-
             }
-
-            
-
-
-            Console.ReadLine();
 
             //playingCardDeck.AddCardToBottomOfDeck();
 
@@ -154,16 +153,18 @@ namespace CardGame
         public void ShowRules()
         {
             Console.WriteLine("Some rules..");
+            Console.ReadKey();
+
+            //Write exit to go back to main menu
         }
 
         public void ShowStatistics()
         {
             Console.WriteLine("Some statistics..");
-        }
+            Console.ReadKey();
 
-        public void EndGame()
-        {
-            Console.WriteLine("Ending game..");
+            //Write exit to go back to main menu
+
         }
 
         public void WriteGreen(string text)
@@ -178,6 +179,23 @@ namespace CardGame
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(text);
             Console.ResetColor();
+        }
+
+        public void WriteMenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("███╗   ███╗███████╗███╗   ██╗██╗   ██╗");
+            Console.WriteLine("████╗ ████║██╔════╝████╗  ██║██║   ██║");
+            Console.WriteLine("██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║");
+            Console.WriteLine("██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║");
+            Console.WriteLine("██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝");
+            Console.WriteLine("╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ");
+            Console.WriteLine();
+
+            Console.WriteLine("1) Play new game");
+            Console.WriteLine("2) Rules");
+            Console.WriteLine("3) Statistics");
+            Console.WriteLine("4) Exit");
         }
 
     }
