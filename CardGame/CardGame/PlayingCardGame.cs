@@ -9,7 +9,7 @@ namespace CardGame
         public void Menu()
         {
 
-            WelcomeUser();
+            PrintHigherOrLower();
             ShowMenu();
 
             Console.WriteLine("Ending game...");
@@ -59,10 +59,8 @@ namespace CardGame
             }
         }
 
-        public void WelcomeUser()
+        public void PrintHigherOrLower()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-
             Console.WriteLine();
             Console.WriteLine(" ██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
             Console.WriteLine(" ██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
@@ -80,40 +78,41 @@ namespace CardGame
         {
             Console.Clear();
 
+            string userName = AskUserForName();
+            WelcomeUser(userName);
+            int score = 0;
+
             //Skapar en ny kortlek
             PlayingCardDeck playingCardDeck = new PlayingCardDeck();
             List<PlayingCard> cards = playingCardDeck.CreateDeck();
             playingCardDeck.Shuffle(cards); //Har nu skapat en kortlek med randomiserad ordning i
 
+            Console.Clear();
             while (cards.Count >= 2)
             {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine("\nWrite 'h' for higher and 'l' for lower. Write 'exit' to go back to main menu ");
-                Console.WriteLine("_____________________________________________________________________________");
-                Console.ResetColor();
+                PrintInstructions("\nWrite 'h' for higher and 'l' for lower. Write 'exit' to go back to main menu ");
 
                 PlayingCard firstCard = playingCardDeck.PickFirstCardFromDeck(cards);
 
                 Console.WriteLine($"\nThe card is {firstCard.Suit} {firstCard.Value}");
                 cards.Remove(firstCard);
 
-                string answer = "";
+                string input = "";
 
                 Console.Write("Do you think the next card will be higher or lower? ");
 
                 while (true)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    answer = Console.ReadLine();
+                    input = Console.ReadLine();
                     Console.ResetColor();
 
-                    if (answer.ToLower() == "l" || answer.ToLower() == "h")
+                    if (input.ToLower() == "l" || input.ToLower() == "h")
                     {
-                        CompareCards(playingCardDeck, cards, firstCard, answer);
+                        score = CompareCards(playingCardDeck, cards, firstCard, input, score);
                         break;
                     }
-                    else if (answer.ToLower() == "exit")
+                    else if (input.ToLower() == "exit")
                     {
                         break;
                     }
@@ -124,71 +123,73 @@ namespace CardGame
                     }
                 }
 
-                if (answer.ToLower() == "exit")
+                if (input.ToLower() == "exit")
                 {
+                    EndGame(userName, score);
                     break;
                 }
-                //    if (firstCard.Value > secondCard.Value)
-                //    {
-                //        if (answer.ToLower() == "l")
-                //        {
-                //            WriteGreen("your answer was correct!\n");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-                //        else if(answer.ToLower() == "h")
-                //        {
-                //            WriteRed("your answer was wrong!\n");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-                //        else
-                //        {
-                //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-
-                //    }
-                //    else if (firstCard.Value < secondCard.Value)
-                //    {
-                //        if (answer.ToLower() == "h")
-                //        {
-                //            WriteGreen("your answer was correct!\n");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-                //        else if (answer.ToLower() == "l")
-                //        {
-                //            WriteRed("your answer was wrong!\n");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-                //        else
-                //        {
-                //            Console.WriteLine("I didn't quite get that. Please write 'h' or 'l'");
-                //            Console.ReadKey();
-                //            Console.Clear();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        WriteGreen("The cards have the same value!\n");
-                //        Console.ReadKey();
-                //        Console.Clear();
-                //    }
             }
-
-            //playingCardDeck.AddCardToBottomOfDeck();
-
         }
 
-        private void CompareCards(PlayingCardDeck playingCardDeck, List<PlayingCard> cards, PlayingCard firstCard, string answer)
+        private void EndGame(string userName, int score)
+        {
+            Console.WriteLine($"{userName} got {score} points!");
+            string result = $"{userName}                {score}";
+            System.IO.File.WriteAllText("highscore.txt", result);
+            Console.ReadKey();
+        }
+
+        private void WelcomeUser(string userName)
+        {
+            Console.WriteLine($"\nWelcome {userName}!");
+            Console.Write("Do you want to hear the rules before you start the game (yes/no)? ");
+
+            while (true)
+            {
+                string answer = Console.ReadLine();
+
+                if (answer.ToLower() == "yes")
+                {
+                    ShowRules();
+                    break;
+                }
+                else if (answer.ToLower() == "no")
+                {
+                    Console.WriteLine("Okey then, let's get started!");
+                    break;
+                }
+                else
+                {
+                    Console.Write("Sorry, I didn't get that. Please write yes or no: ");
+                    continue;
+                }
+            }
+        }
+
+        private string AskUserForName()
+        {
+            Console.Write("Enter name: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string name = Console.ReadLine();
+            Console.ResetColor();
+
+            return name;
+        }
+
+        public void PrintInstructions(string text)
+        {
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine(text);
+            Console.WriteLine("_____________________________________________________________________________");
+            Console.ResetColor();
+        }
+
+        private int CompareCards(PlayingCardDeck playingCardDeck, List<PlayingCard> cards, PlayingCard firstCard, string answer, int score)
         {
             PlayingCard secondCard = playingCardDeck.PickFirstCardFromDeck(cards);
             Console.Write($"The second card is {secondCard.Suit} {secondCard.Value}, ");
             cards.Remove(secondCard);
-
 
             switch (answer)
             {
@@ -196,6 +197,7 @@ namespace CardGame
                     if (firstCard.Value > secondCard.Value)
                     {
                         WriteGreen("your answer was correct!\n");
+                        score++;
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -217,6 +219,7 @@ namespace CardGame
                     if (firstCard.Value < secondCard.Value)
                     {
                         WriteGreen("your answer was correct!\n");
+                        score++;
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -235,24 +238,36 @@ namespace CardGame
                     break;
                 default:
                     break;
-
             }
+
+            return score;
         }
 
         public void ShowRules()
         {
-            Console.WriteLine("Some rules..");
-            Console.ReadKey();
+            Console.Clear();
+            WriteRulesHeader();
+            Console.WriteLine("\n* Two cards are taken from the deck.\n  The first one is shown and the second one is given to you.");
+            Console.WriteLine("\n* You are supposed to guess whether your card's value\n  is higher or lower than the visible card.");
+            Console.WriteLine("\n* If you are right, you get one point. ");
+            Console.WriteLine("\n* You win when you get 10 points!");
 
-            //Write exit to go back to main menu
+            Console.WriteLine("\n__________________________________________________________\n");
+            Console.WriteLine("\nPress any key to go back to main menu");
+            Console.ReadKey();
         }
 
         public void ShowStatistics()
         {
-            Console.WriteLine("Some statistics..");
-            Console.ReadKey();
+            Console.Clear();
+            WriteHighscoreHeader();
+            Console.WriteLine("  NAME                       SCORE");
+            Console.WriteLine("* Some users name            XXX");
+            Console.WriteLine("* Other users name           XXX");
 
-            //Write exit to go back to main menu
+            Console.WriteLine("\n______________________________________________________________________\n");
+            Console.WriteLine("\nPress any key to go back to main menu");
+            Console.ReadKey();
 
         }
 
@@ -283,8 +298,31 @@ namespace CardGame
 
             Console.WriteLine("1) Play new game");
             Console.WriteLine("2) Rules");
-            Console.WriteLine("3) Statistics");
+            Console.WriteLine("3) Highscore");
             Console.WriteLine("4) Exit");
+        }
+
+        public void WriteRulesHeader()
+        {
+            Console.WriteLine();
+            Console.WriteLine(" ██████╗ ██╗   ██╗██╗     ███████╗███████╗");
+            Console.WriteLine(" ██╔══██╗██║   ██║██║     ██╔════╝██╔════╝");
+            Console.WriteLine(" ██████╔╝██║   ██║██║     █████╗  ███████╗");
+            Console.WriteLine(" ██╔══██╗██║   ██║██║     ██╔══╝  ╚════██║");
+            Console.WriteLine(" ██║  ██║╚██████╔╝███████╗███████╗███████║");
+            Console.WriteLine(" ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝");
+        }
+
+        public void WriteHighscoreHeader()
+        {
+            Console.WriteLine();
+            Console.WriteLine("██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗ ██████╗ ██████╗ ██████╗ ███████╗");
+            Console.WriteLine("██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝");
+            Console.WriteLine("███████║██║██║  ███╗███████║███████╗██║     ██║   ██║██████╔╝█████╗  ");
+            Console.WriteLine("██╔══██║██║██║   ██║██╔══██║╚════██║██║     ██║   ██║██╔══██╗██╔══╝  ");
+            Console.WriteLine("██║  ██║██║╚██████╔╝██║  ██║███████║╚██████╗╚██████╔╝██║  ██║███████╗");
+            Console.WriteLine("╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝");
+            Console.WriteLine();
         }
 
     }
