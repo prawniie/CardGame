@@ -134,8 +134,8 @@ namespace CardGame
         private void EndGame(string userName, int score)
         {
             Console.WriteLine($"{userName} got {score} points!");
-            string result = $"{userName}                {score}";
-            System.IO.File.WriteAllText("highscore.txt", result);
+            string result = $"{userName},{score};";
+            System.IO.File.AppendAllText(@"C:\Project\CardGame\CardGame\CardGame\highscore.txt", result);
             Console.ReadKey();
         }
 
@@ -261,9 +261,22 @@ namespace CardGame
         {
             Console.Clear();
             WriteHighscoreHeader();
-            Console.WriteLine("  NAME                       SCORE");
-            Console.WriteLine("* Some users name            XXX");
-            Console.WriteLine("* Other users name           XXX");
+            Console.WriteLine("  NAME               SCORE");
+
+            string highscore = System.IO.File.ReadAllText(@"C:\Project\CardGame\CardGame\CardGame\highscore.txt");
+            string[] highscoreArray = highscore.Split(';');
+
+            foreach (var user in highscoreArray)
+            {
+
+                if (user.ToString() == null || user.ToString().Length == 0)
+                {
+                    break;
+                }
+
+                string[] userInfo = user.Split(',');
+                Console.WriteLine($"* {userInfo[0].PadRight(20)}{userInfo[1]}");
+            }
 
             Console.WriteLine("\n______________________________________________________________________\n");
             Console.WriteLine("\nPress any key to go back to main menu");
