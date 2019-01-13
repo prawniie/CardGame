@@ -35,9 +35,6 @@ namespace CardGame
 
         }
 
-        //Bra länkar att titta på
-        //http://www.tutorialsteacher.com/csharp/csharp-list
-
         private static Random rng = new Random();
 
         public void Shuffle<PlayingCard>(List<PlayingCard> cards)

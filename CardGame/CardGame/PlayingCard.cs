@@ -30,10 +30,5 @@ namespace CardGame
         {
 
         }
-
-        //public PlayingCard(Suit suit, Value value, bool isVisible)
-        //{
-
-        //}
     }
 }
