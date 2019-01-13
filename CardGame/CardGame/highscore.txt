@@ -1,1 +1,1 @@
-Rebecka,3;prawniie,7;
+Rebecka,25,0;Robin,54,5;Robin,50,0;

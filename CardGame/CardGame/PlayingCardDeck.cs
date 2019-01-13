@@ -27,12 +27,6 @@ namespace CardGame
 
             return cards;
 
-            //All cards in the deck =)
-            //foreach (var card in cards)
-            //{
-            //    Console.WriteLine($"{card.Suit} {card.Value}");
-            //}
-
         }
 
         private static Random rng = new Random();
@@ -64,7 +58,7 @@ namespace CardGame
         public List<PlayingCard> AddCardToBottomOfDeck(List<PlayingCard> cards, PlayingCard card) 
         {
 
-            List<PlayingCard> cardsWithCardAddedToBottom = cards; //Eller behöver man använda AddRange för att kopiera samtliga element?
+            List<PlayingCard> cardsWithCardAddedToBottom = cards;
             cardsWithCardAddedToBottom.Add(card);
 
             return cardsWithCardAddedToBottom;

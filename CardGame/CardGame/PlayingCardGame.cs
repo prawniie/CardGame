@@ -49,20 +49,6 @@ namespace CardGame
             }
         }
 
-        public void PrintTitle()
-        {
-            Console.WriteLine();
-            Console.WriteLine(" ██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
-            Console.WriteLine(" ██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
-            Console.WriteLine(" ███████║██║██║  ███╗███████║█████╗  ██████╔╝    ██║   ██║██████╔╝    ██║     ██║   ██║██║ █╗ ██║█████╗  ██████╔╝");
-            Console.WriteLine(" ██╔══██║██║██║   ██║██╔══██║██╔══╝  ██╔══██╗    ██║   ██║██╔══██╗    ██║     ██║   ██║██║███╗██║██╔══╝  ██╔══██╗");
-            Console.WriteLine(" ██║  ██║██║╚██████╔╝██║  ██║███████╗██║  ██║    ╚██████╔╝██║  ██║    ███████╗╚██████╔╝╚███╔███╔╝███████╗██║  ██║");
-            Console.WriteLine(" ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝");
-
-            Console.ResetColor();
-            Console.ReadKey();
-            Console.Clear();
-        }
 
         public void PlayGame()
         {
@@ -71,6 +57,8 @@ namespace CardGame
             string userName = AskUserForName();
             WelcomeUser(userName);
             int score = 0;
+            int roundCounter = 0;
+
 
             //Skapar en ny kortlek
             PlayingCardDeck playingCardDeck = new PlayingCardDeck();
@@ -100,6 +88,7 @@ namespace CardGame
                     if (input.ToLower() == "l" || input.ToLower() == "h")
                     {
                         score = CompareCards(playingCardDeck, cards, firstCard, input, score);
+                        roundCounter++;
                         break;
                     }
                     else if (input.ToLower() == "exit")
@@ -118,21 +107,29 @@ namespace CardGame
                     break;
                 }
 
-                if (score == 10)
+                if (roundCounter == 10)
                 {
-                    WriteGreen("You win!\n");
+                    WriteGreen("\nThe round is over!\n");
                     break;
                 }
             }
 
-            EndGame(userName, score);
+            double percent = CalculatePercent(score, roundCounter);
+            EndGame(userName, percent);
         }
 
-        private void EndGame(string userName, int score)
+        private double CalculatePercent(int score, int roundCounter)
         {
-            Console.WriteLine($"{userName} got {score} points!");
-            string result = $"{userName},{score};";
-            System.IO.File.AppendAllText(@"C:\Project\CardGame\CardGame\CardGame\highscore.txt", result);
+            double percent = (double)score / (double)roundCounter;
+            return percent;
+        }
+
+        private void EndGame(string userName, double percent)
+        {
+            string formattedPercent = string.Format("{0:00.0}", percent * 100);
+            Console.WriteLine(userName + " scored " + formattedPercent + "%!");
+            string result = $"{userName},{formattedPercent};";
+            System.IO.File.AppendAllText(@"C:\Project\CardGame_III\CardGame\CardGame\highscore.txt", result);
             Console.ReadKey();
         }
 
@@ -247,7 +244,8 @@ namespace CardGame
             Console.WriteLine("\n* Two cards are taken from the deck.\n  The first one is shown and the second one is given to you.");
             Console.WriteLine("\n* You are supposed to guess whether your card's value\n  is higher or lower than the visible card.");
             Console.WriteLine("\n* If you are right, you get one point. ");
-            Console.WriteLine("\n* You win when you get 10 points!");
+            Console.WriteLine("\n* The game is over after 10 rounds!");
+            Console.WriteLine("\n* Try to get as high percent as possible!");
 
             Console.WriteLine("\n__________________________________________________________\n");
             Console.WriteLine("\nPress any key to go back to main menu");
@@ -258,9 +256,9 @@ namespace CardGame
         {
             Console.Clear();
             WriteHighscoreHeader();
-            Console.WriteLine("  NAME               SCORE");
+            Console.WriteLine("  NAME               SCORE %");
 
-            string highscore = System.IO.File.ReadAllText(@"C:\Project\CardGame\CardGame\CardGame\highscore.txt");
+            string highscore = System.IO.File.ReadAllText(@"C:\Project\CardGame_III\CardGame\CardGame\highscore.txt");
             string[] highscoreArray = highscore.Split(';');
 
             foreach (var user in highscoreArray)
@@ -334,6 +332,22 @@ namespace CardGame
             Console.WriteLine("╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝");
             Console.WriteLine();
         }
+
+        public void PrintTitle()
+        {
+            Console.WriteLine();
+            Console.WriteLine(" ██╗  ██╗██╗ ██████╗ ██╗  ██╗███████╗██████╗      ██████╗ ██████╗     ██╗      ██████╗ ██╗    ██╗███████╗██████╗ ");
+            Console.WriteLine(" ██║  ██║██║██╔════╝ ██║  ██║██╔════╝██╔══██╗    ██╔═══██╗██╔══██╗    ██║     ██╔═══██╗██║    ██║██╔════╝██╔══██╗");
+            Console.WriteLine(" ███████║██║██║  ███╗███████║█████╗  ██████╔╝    ██║   ██║██████╔╝    ██║     ██║   ██║██║ █╗ ██║█████╗  ██████╔╝");
+            Console.WriteLine(" ██╔══██║██║██║   ██║██╔══██║██╔══╝  ██╔══██╗    ██║   ██║██╔══██╗    ██║     ██║   ██║██║███╗██║██╔══╝  ██╔══██╗");
+            Console.WriteLine(" ██║  ██║██║╚██████╔╝██║  ██║███████╗██║  ██║    ╚██████╔╝██║  ██║    ███████╗╚██████╔╝╚███╔███╔╝███████╗██║  ██║");
+            Console.WriteLine(" ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝");
+
+            Console.ResetColor();
+            Console.ReadKey();
+            Console.Clear();
+        }
+
 
     }
 }
